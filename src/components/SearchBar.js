@@ -9,7 +9,7 @@ const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
             autoCapitalize='none'
             autoCorrect={false}
             style={style.inputStyle}
-            placeholder='Search'
+            placeholder='Search book'
             value={term}
             onChangeText={onTermChange}
             onEndEditing={onTermSubmit}
@@ -19,22 +19,31 @@ const SearchBar = ({ term, onTermChange, onTermSubmit }) => {
 
 const style = StyleSheet.create({
     backgroundStyle: {
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#FFFF',
         marginTop: 15,
         marginHorizontal: 15,
         borderRadius: 10,
         marginBottom: 15,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        flex: 1,
+
+        shadowColor: 'black',
+        shadowOpacity: 0.04,
+        shadowOffset: { width: 1, height: 3},
+        shadowRadius: 2,
+        elevation: 3,
+
     },
 
     iconStyle: {
-        fontSize: 35,
+        fontSize: 20,
         alignSelf: 'center',
-        marginHorizontal: 5
+        marginHorizontal: 5,
+        color: "#808080"
     },
     inputStyle: {
         flex: 1,
-        fontSize: 18
+        fontSize: 14
     }
 });
 

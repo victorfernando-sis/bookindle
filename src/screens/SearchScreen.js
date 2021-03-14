@@ -1,38 +1,36 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import googlebooks from '../api/googlebooks';
+import FilterButton from '../components/FilterButton';
+import useBooks from '../hooks/useBooks';
+import BookList from '../components/BookList';
 
 const SearchScreen = () => {
     const [term, setTerm] = useState('');
-    const [results, setResults] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [searchApi, filterBooks, results, errorMessage] = useBooks();
 
-    const searchApi = async () => {
-        try {
-            const response = await googlebooks.get('/volumes?', {
-                params: {
-                    q: 'search+terms'
-                }
-            });
-            setResults(response.data.items);
-        } catch (err){
-            setErrorMessage("Something went wrong!");
-        }
-
-    };
-
-    return <View>
-        <SearchBar
-            term={term}
-            onTermChange={setTerm}
-            onTermSubmit={searchApi} />
+    return <View style={{ backgroundColor: '#F0F0F0', flex: 1 }}>
+        <View style={style.searchStyle}>
+            <SearchBar
+                term={term}
+                onTermChange={setTerm}
+                onTermSubmit={() => searchApi({ searchTerm: term })} />
+            <FilterButton />
+        </View>
         {errorMessage ? <Text>{errorMessage}</Text> : null}
-        <Text>We have found {results.length} results</Text>
+        <ScrollView>
+            <BookList  books={filterBooks({ payload: 'SAMPLE' })} title='Trending Books' />
+            <BookList  books={filterBooks({ payload: 'SAMPLE' })} title='Recommended' />
+            <BookList  books={filterBooks({ payload: 'SAMPLE' })} title='Short Books' />
+        </ScrollView>
     </View>
 };
 
 const style = StyleSheet.create({
+    searchStyle: {
+        flexDirection: "row",
+    }
+
 });
 
 export default SearchScreen;
